@@ -32,8 +32,20 @@ def contact(request):
         #print("We are using post request")
     return render(request,"home/contact.html")
 
-def about(request):
-    messages.success(request,"Welcome to About")
+def about(request,authSlug):
+    if authSlug==None:
+        messages.success(request,"Welcome to About")
+        return render(request,"home/contact.html")
+    else:
+        messages.success(request,"Welcome to About")
+        authNames=Post.objects.filter(author=authSlug).first()
+        authDesc=Post.objects.get(author=authSlug)
+        print(authDesc)
+        auth={"authNames":authNames,"authDesc":authDesc}
+        return render(request,"home/about.html",auth)
+
+def about1(request):
+    messages.warning(request,"Currently in development mode")
     return render(request,"home/about.html")
 
 def search(request):
