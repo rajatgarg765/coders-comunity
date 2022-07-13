@@ -6,6 +6,9 @@ from blog.models import Post
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .form import *
+from django.utils import timezone
+
+
 
 
 from django.http import HttpResponse
@@ -41,8 +44,10 @@ def about(request,authSlug):
     else:
         messages.success(request,"Welcome to About")
         authNames=Post.objects.filter(author=authSlug).first()
-        authDesc=Post.objects.get(author=authSlug)
-        print(authDesc)
+        print(authNames.author)
+        authDesc=Post.objects.filter(author__startswith=authNames.author).values()
+        #print(authDesc[0]['authorDesc'])
+        authDesc=(authDesc[0]['authorDesc'])
         auth={"authNames":authNames,"authDesc":authDesc}
         return render(request,"home/about.html",auth)
 
@@ -54,12 +59,12 @@ def createBlog(request):
             #image=request.FILES['image']
             title=request.POST.get('title')
             user=request.user
-
+            now = timezone.now()
             if form.is_valid():
                 content=form.cleaned_data['content']
             print(user)
-            blog_obj= Post.objects.create(user=user,title=title,content=content,author=user.username)
-            print(blog_obj)
+            blog_obj= Post.objects.create(user=user,title=title,content=content,author=user.username,slug=title,timeStamp=now)
+            #print(blog_obj)
             messages.success(request,"Your blog is successfully posted")
             return redirect("/")
    
