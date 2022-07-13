@@ -5,6 +5,8 @@ from django.contrib import messages
 from blog.models import Post 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from .form import *
+
 
 from django.http import HttpResponse
 # Create your views here.
@@ -44,9 +46,26 @@ def about(request,authSlug):
         auth={"authNames":authNames,"authDesc":authDesc}
         return render(request,"home/about.html",auth)
 
-def about1(request):
-    messages.warning(request,"Currently in development mode")
-    return render(request,"home/about.html")
+def createBlog(request):
+    createdPosts={"form":BlogForm}
+    try:
+        if request.method=='POST':
+            form=BlogForm(request.POST)
+            #image=request.FILES['image']
+            title=request.POST.get('title')
+            user=request.user
+
+            if form.is_valid():
+                content=form.cleaned_data['content']
+            print(user)
+            blog_obj= Post.objects.create(user=user,title=title,content=content,author=user.username)
+            print(blog_obj)
+            messages.success(request,"Your blog is successfully posted")
+            return redirect("/")
+   
+    except Exception as e:
+        print(e)
+    return render(request,"blog/create-blog.html",createdPosts)
 
 def search(request):
     #allpost=Post.objects.all()

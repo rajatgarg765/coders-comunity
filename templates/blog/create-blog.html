@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %} Create Blog {% endblock title %}
+{% block createBlogactive %} active {% endblock createBlogactive %}
+
+
+{% block body %}
+
+<div class="container mt-5">
+    {% comment %} <form method="post" class="mt-5 pt-5 mb-5 pb-5"
+          enctype="multipart/form-data" action="{% url 'add_blog' %}">
+        {% csrf_token %} {% endcomment %}
+        <form method="post">
+            {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <label>Enter blog title</label>
+                <input type="text" class="form-control" placeholder="Enter title" name="title">
+            </div>
+
+            <div class="col-md-12 my-2">
+            
+            
+
+                  {{form.media}}
+                {{form.as_p}}  
+
+                <div class="form-floating">
+                    
+                    
+                  </div>
+            </div>
+
+            {% comment %} <div class="col-md-12 my-2">
+                <input type="file" name="image" class="form-control btn" >
+            </div> {% endcomment %}
+
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2 w-100">Post Blog</button>
+        <br>
+        <br>
+
+    </form>
+
+</div>
+  {% comment %} {% url 'see_blog' %} {% endcomment %}
+  {% comment %} <a href="" class="btn btn-warning">View Your blogs</a> {% endcomment %}
+
+
+{% endblock body %}

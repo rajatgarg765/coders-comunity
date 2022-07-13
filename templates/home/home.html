@@ -35,5 +35,51 @@
       </div>
       {% endfor %}
 </div>
+{% if user.is_authenticated %}
+{% else %}
+<!-- Button trigger modal -->
+<div id="delay">
+<button type="button" hidden class="btn btn-primary" id="clickButton" data-toggle="modal" data-target="#exampleModal">
+  
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+       
+      </div>
+      <div class="modal-body">
+        Please Log In to create your own blogs.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="closebtn" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="logInbtn" data-toggle="modal" data-target="#loginModal">Log In</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endif %}  
 
 {% endblock body %}
+
+{% block js %}
+<script>
+
+window.onload = function(){
+  var button = document.getElementById('clickButton');
+  button.click();
+}
+
+var logInbtn=document.getElementById("logInbtn")
+logInbtn.addEventListener('click',function(e){
+   var closebtn=document.getElementById("closebtn");
+    closebtn.click()
+})
+
+</script>
+
+{% endblock js %}
