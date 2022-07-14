@@ -1,7 +1,6 @@
 #from asyncio.windows_events import NULL
 from xml.etree.ElementTree import Comment
 from django.db import models
-from froala_editor.fields import FroalaField
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 
@@ -9,8 +8,7 @@ from django.utils.timezone import now
 class Post(models.Model):
     sno=models.AutoField(primary_key=True)
     title=models.CharField(max_length=50)
-    #content=models.TextField()
-    content=FroalaField()
+    content=models.TextField()
     author=models.CharField(max_length=50)
     authorDesc=models.CharField(max_length=250)
     user = models.ForeignKey(User, blank=True, null=True,

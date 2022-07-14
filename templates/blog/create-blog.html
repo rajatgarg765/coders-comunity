@@ -7,6 +7,7 @@
 {% block body %}
 
 <div class="container mt-5">
+    {% if user.is_authenticated %}
     {% comment %} <form method="post" class="mt-5 pt-5 mb-5 pb-5"
           enctype="multipart/form-data" action="{% url 'add_blog' %}">
         {% csrf_token %} {% endcomment %}
@@ -19,11 +20,9 @@
             </div>
 
             <div class="col-md-12 my-2">
-            
-            
-
-                  {{form.media}}
-                {{form.as_p}}  
+            Content
+            <textarea name="content" id="" class="w-100" rows="10"></textarea>
+ 
 
                 <div class="form-floating">
                     
@@ -42,10 +41,13 @@
         <br>
 
     </form>
-
+    {% else %}
+    <p>Please login to post a comment</p>
+    {% endif %}
 </div>
   {% comment %} {% url 'see_blog' %} {% endcomment %}
   {% comment %} <a href="" class="btn btn-warning">View Your blogs</a> {% endcomment %}
+  
 
 
 {% endblock body %}

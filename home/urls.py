@@ -11,5 +11,4 @@ urlpatterns = [
     path('signup',views.handleSignup,name="handleSignup"),
     path('login',views.handlelogin,name="handlelogin"),
     path('logout',views.handlelogout,name="handlelogout"),
-    path('froala_editor/',include('froala_editor.urls'))
 ]

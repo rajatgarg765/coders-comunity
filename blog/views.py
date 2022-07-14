@@ -13,20 +13,23 @@ def blogHome(request):
     return render(request,"blog/blogHome.html",context)
 
 def blogPost(request,slug):
-    post=Post.objects.filter(slug=slug).first()
-    post.views+=1
-    post.save()
-    comments=BlogComment.objects.filter(post=post,parent=None)
-    replies=BlogComment.objects.filter(post=post).exclude(parent=None)
-    replyDict={}
-    for reply in replies:
-        if reply.parent.sno not in replyDict.keys():
-            replyDict[reply.parent.sno]=[reply]
-        else:
-            replyDict[reply.parent.sno].append(reply)
-    print(replyDict)
-    context={'post':post,"comments":comments,"user":request.user,'replyDict':replyDict}
-    return render(request,"blog/blogPost.html",context)
+    try:
+        post=Post.objects.filter(slug=slug).first()
+        post.views+=1
+        post.save()
+        comments=BlogComment.objects.filter(post=post,parent=None)
+        replies=BlogComment.objects.filter(post=post).exclude(parent=None)
+        replyDict={}
+        for reply in replies:
+            if reply.parent.sno not in replyDict.keys():
+                replyDict[reply.parent.sno]=[reply]
+            else:
+                replyDict[reply.parent.sno].append(reply)
+        print(replyDict)
+        context={'post':post,"comments":comments,"user":request.user,'replyDict':replyDict}
+        return render(request,"blog/blogPost.html",context)
+    except Exception as e:
+        return HttpResponse("Error 404! Not found")
 
 def postComment(request):
     if request.method=="POST":

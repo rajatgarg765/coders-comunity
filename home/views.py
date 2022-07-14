@@ -5,7 +5,7 @@ from django.contrib import messages
 from blog.models import Post 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .form import *
+
 from django.utils import timezone
 
 
@@ -52,25 +52,24 @@ def about(request,authSlug):
         return render(request,"home/about.html",auth)
 
 def createBlog(request):
-    createdPosts={"form":BlogForm}
     try:
+        allPosts=Post.objects.all()
+        context={'allPosts':allPosts}
         if request.method=='POST':
-            form=BlogForm(request.POST)
-            #image=request.FILES['image']
+            content=request.POST.get('content')
             title=request.POST.get('title')
             user=request.user
+            print(content)
             now = timezone.now()
-            if form.is_valid():
-                content=form.cleaned_data['content']
-            print(user)
             blog_obj= Post.objects.create(user=user,title=title,content=content,author=user.username,slug=title,timeStamp=now)
             #print(blog_obj)
             messages.success(request,"Your blog is successfully posted")
             return redirect("/")
-   
+    
     except Exception as e:
         print(e)
-    return render(request,"blog/create-blog.html",createdPosts)
+    return render(request,"blog/create-blog.html",context)
+ 
 
 def search(request):
     #allpost=Post.objects.all()
