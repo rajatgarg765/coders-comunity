@@ -6,3 +6,4 @@ django-froala-editor==4.0.13
 python-dotenv==0.20.0
 sqlparse==0.4.2
 tzdata==2022.1
+backports.zoneinfo==0.2.1;python_version<"3.9"
